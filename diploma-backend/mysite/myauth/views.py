@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema
@@ -59,13 +60,17 @@ class LoginView(APIView):
     def post(self, request: Request) -> Response:
         """Вход в аккаунт"""
 
-        serializer = UserLoginSerializer(data=request.data)
+        # serializer = UserLoginSerializer(data=request.data)
+        #
+        # if not serializer.is_valid():
+        #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #
+        # username = serializer.validated_data['username']
+        # password = serializer.validated_data['password']
 
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        username = serializer.validated_data['username']
-        password = serializer.validated_data['password']
+        data = json.loads(request.body)
+        username = data.get("username")
+        password = data.get("password")
 
         user = authenticate(request, username=username, password=password)
 
