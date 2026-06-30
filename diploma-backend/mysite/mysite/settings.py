@@ -42,8 +42,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
-    'django.contrib.admindocs',
     'drf_spectacular',
+
+    # 'myauth.apps.AuthConfig'
 ]
 
 MIDDLEWARE = [
