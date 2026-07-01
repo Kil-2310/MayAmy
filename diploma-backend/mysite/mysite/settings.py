@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
 
-    'myauth.apps.MyauthConfig'
+    'myauth.apps.MyauthConfig',
+    'catalog.apps.CatalogConfig',
 ]
 
 MIDDLEWARE = [
