@@ -17,7 +17,7 @@ from .models import Profile
     description="Регистрация нового пользователя",
     request=UserRegistrationSerializer,
     responses={
-        200: {"description": "Successfully registered"},
+        200: {"description": "Successful operation"},
         400: {"description": "Validation Error"},
     },
 )
@@ -27,28 +27,24 @@ class RegistrationView(APIView):
     def post(self, request: Request) -> Response:
         """Регистрация нового пользователя"""
 
-        serializer = UserRegistrationSerializer(data=request.data)
-
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        username = serializer.validated_data['username']
-        password = serializer.validated_data['password']
-        name = serializer.validated_data['name']
+        data = json.loads(request.body)
+        username = data.get("username")
+        password = data.get("password")
+        name = data.get("name")
 
         user = User.objects.create_user(username=username, password=password)
 
         Profile.objects.create(user=user, name=name)
         login(request, user)
 
-        return Response({"message": "User created successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Successful operation"}, status=status.HTTP_200_OK)
 
 
 @extend_schema(
     tags=['auth'],
     description="Вход в аккаунт",
     responses={
-        200: {"description": "Успешный выход"},
+        200: {"description": "Successful operation"},
         400: {"description": "Validation Error"},
         404: {"description": "Not found"},
     },
@@ -59,14 +55,6 @@ class LoginView(APIView):
 
     def post(self, request: Request) -> Response:
         """Вход в аккаунт"""
-
-        # serializer = UserLoginSerializer(data=request.data)
-        #
-        # if not serializer.is_valid():
-        #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        #
-        # username = serializer.validated_data['username']
-        # password = serializer.validated_data['password']
 
         data = json.loads(request.body)
         username = data.get("username")
@@ -84,7 +72,7 @@ class LoginView(APIView):
 @extend_schema(
     tags=['auth'],
     description="Выход из аккаунта",
-    responses={200: {"description": "Successfully logout"}},
+    responses={200: {"description": "Successful operation"}},
 )
 class LogoutView(APIView):
     permission_classes = [AllowAny]
@@ -93,4 +81,4 @@ class LogoutView(APIView):
         """Выход из аккаунта"""
 
         logout(request)
-        return Response({"message": "Successfully logout"}, status=status.HTTP_200_OK)
+        return Response({"message": "Successful operation"}, status=status.HTTP_200_OK)
