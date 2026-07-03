@@ -13,7 +13,7 @@ from .serializers import (
 from .models import (
     Category,
     Product,
-    Sales, Banner,
+    Sales,
 )
 
 

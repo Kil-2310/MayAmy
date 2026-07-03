@@ -1,12 +1,8 @@
 from django.db import models
 
 from django.shortcuts import get_object_or_404
+from tags.models import Tag
 
-# TODO перенести в отдельное приложеине
-class Tag(models.Model):
-    """Тэг"""
-
-    name = models.CharField(max_length=255, unique=True)
 
 class Image(models.Model):
     """Превью"""
