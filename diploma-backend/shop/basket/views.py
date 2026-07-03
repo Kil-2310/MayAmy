@@ -116,6 +116,6 @@ class BasketView(APIView):
 
         product.save()
 
-        return Response(
-            {"message": "Successful operation"}
-        )
+        serializer = CatalogSerializer([product], many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
