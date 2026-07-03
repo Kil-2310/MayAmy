@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
 from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -33,7 +34,6 @@ class RegistrationView(APIView):
         name = data.get("name")
 
         user = User.objects.create_user(username=username, password=password)
-
         Profile.objects.create(user=user, name=name)
         login(request, user)
 
@@ -64,7 +64,8 @@ class LoginView(APIView):
 
         if user:
             login(request, user)
-            return Response({"message": "Successfully logged in"}, status=status.HTTP_200_OK)
+            get_token(request)
+            return Response({"message": "Successfully logged in" }, status=status.HTTP_200_OK)
 
         return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
