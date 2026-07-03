@@ -1,8 +1,8 @@
 """
-URL configuration for mysite project.
+URL configuration for shop project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -27,7 +27,7 @@ urlpatterns = [
 
     path("", include("frontend.urls")),
 
-    path("api/", include("myauth.urls")),
+    path("api/", include("authentication.urls")),
     path("api/", include("catalog.urls")),
     path("api/", include("basket.urls")),
 
