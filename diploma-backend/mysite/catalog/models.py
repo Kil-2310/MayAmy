@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.shortcuts import get_object_or_404
 
 # TODO перенести в отдельное приложеине
 class Tag(models.Model):
@@ -45,6 +46,13 @@ class Product(models.Model):
     category = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, related_name='products')
     tags = models.ManyToManyField(Tag, related_name='products')
+
+
+    @classmethod
+    def get_by_id(cls, id: int) -> 'Product':
+        """Получение продукта по id или 404"""
+
+        return get_object_or_404(cls, id=id)
 
 class Sales(models.Model):
     """Проданные продукты"""
