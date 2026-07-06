@@ -27,6 +27,7 @@ class BasketView(APIView):
     )
     def get(self, request: Request) -> Response:
         """Получение корзины"""
+
         data = Product.objects.filter(basket__user = self.request.user)
 
         serializer = CatalogSerializer(data, many=True)
@@ -61,7 +62,7 @@ class BasketView(APIView):
         if count > product.count:
             return Response({
                 "message": "The quantity of the product is insufficient"
-            })
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         product.count -= count
 
@@ -72,12 +73,13 @@ class BasketView(APIView):
             )
             basket_item.count += count
             basket_item.save()
+            product.save()
         except ObjectDoesNotExist:
             Basket.objects.create(user=self.request.user, product=product)
 
-        return Response(
-            {"message": "Successful operation"}
-        )
+        serializer = CatalogSerializer([product], many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
     @extend_schema(
@@ -114,6 +116,6 @@ class BasketView(APIView):
 
         product.save()
 
-        return Response(
-            {"message": "Successful operation"}
-        )
+        serializer = CatalogSerializer([product], many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

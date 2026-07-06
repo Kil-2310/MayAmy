@@ -1,26 +1,5 @@
 [
   {
-    "model": "catalog.tag",
-    "pk": 1,
-    "fields": {
-      "name": "Электроника"
-    }
-  },
-  {
-    "model": "catalog.tag",
-    "pk": 2,
-    "fields": {
-      "name": "Одежда"
-    }
-  },
-  {
-    "model": "catalog.tag",
-    "pk": 3,
-    "fields": {
-      "name": "Книги"
-    }
-  },
-  {
     "model": "catalog.image",
     "pk": 1,
     "fields": {

@@ -5,17 +5,10 @@ from .models import (
     Subcategory,
     Image,
     Product,
-    Tag,
     Sales,
 )
+from tags.serializers import TagSerializer
 
-
-class TagSerializer(serializers.ModelSerializer):
-    """Сериализатор для тэгов"""
-
-    class Meta:
-        model = Tag
-        fields = ('id', 'name')
 
 class ImageSerializer(serializers.ModelSerializer):
     """Сериализатор превью"""
