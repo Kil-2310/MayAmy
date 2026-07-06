@@ -6,10 +6,10 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser
 
 from .models import Profile, ProfileAvatar
-from .serializers import ProfileSerializer, UpdateProfileSerializer, UpdatePasswordSerializer, UpdateAvatarSerializer
+from .serializers import ProfileSerializer, UpdateProfileSerializer, UpdatePasswordSerializer
 
 
 class ProfileView(APIView):
@@ -37,6 +37,7 @@ class ProfileView(APIView):
         description="Обновление профиля",
         responses={
             200: {"description": "Successful operation"},
+            400: {'description': 'Bad request'},
         },
         request=UpdateProfileSerializer
     )
@@ -48,11 +49,12 @@ class ProfileView(APIView):
         if not request_serializer.is_valid():
             return Response(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        profile = Profile.objects.filter(user=self.request.user).select_related('user', 'avatar').first()
+        profile = Profile.objects.filter(user=self.request.user).select_related('user').first()
 
         profile.user.email = request_serializer.validated_data['email']
         profile.fullName = request_serializer.validated_data['fullName']
         profile.phone = request_serializer.validated_data['phone']
+
         profile.save()
         profile.user.save()
 
@@ -66,6 +68,7 @@ class ProfileView(APIView):
     description="Обновление пароля",
     responses={
         200: {"description": "Successful operation"},
+        400: {'description': 'Bad request'},
     },
     request=UpdatePasswordSerializer
 )
@@ -126,11 +129,18 @@ class UpdateAvatarView(APIView):
     """Обновление аватара"""
 
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser]
 
     def post(self, request: Request) -> Response:
         profile = request.user.profile
         avatar = request.FILES['avatar']
+
+        max_size = 5 * 1024 * 1024
+
+        if avatar.size > max_size:
+            return Response({
+                "message": "File is too large, max size 5 mb",
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             avatar_obj = profile.avatar
