@@ -721,6 +721,7 @@ files = [
 ]
 
 [package.dependencies]
+boto3 = {version = ">=1.4.4", optional = true, markers = "extra == \"s3\""}
 Django = ">=3.2"
 
 [package.extras]
@@ -2045,4 +2046,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0"
-content-hash = "f02ee3cc5a8b6bd09f31c6106298244a904ee560992cfb0188fbe5034ba7b2e7"
+content-hash = "3aecd82a6da50035ca5a0409fd52bb166afa8a42ba4d2397bbe03339cf92b4fa"

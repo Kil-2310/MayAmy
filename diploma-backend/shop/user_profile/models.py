@@ -14,5 +14,5 @@ class ProfileAvatar(models.Model):
     """Аватар пользователя"""
 
     alt = models.CharField(max_length=255)
-    preview = models.ImageField()
+    preview = models.ImageField(upload_to='user_avatar')
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='avatar')
