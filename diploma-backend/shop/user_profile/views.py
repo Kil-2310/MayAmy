@@ -25,6 +25,8 @@ class ProfileView(APIView):
         }
     )
     def get(self, request: Request) -> Response:
+        """Обновление профиля пользователя"""
+
         data = Profile.objects.filter(user=self.request.user).select_related('user', 'avatar').first()
 
         serializer = ProfileSerializer(data)
@@ -73,11 +75,10 @@ class ProfileView(APIView):
     request=UpdatePasswordSerializer
 )
 class UpdatePasswordView(APIView):
-    """Обновление пароля"""
-
     permission_classes = [IsAuthenticated]
 
     def post(self, request: Request) -> Response:
+        """Обновление пароля"""
 
         serializer = UpdatePasswordSerializer(data=request.data)
 
@@ -126,12 +127,12 @@ class UpdatePasswordView(APIView):
     }
 )
 class UpdateAvatarView(APIView):
-    """Обновление аватара"""
-
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser]
 
     def post(self, request: Request) -> Response:
+        """Обновление аватара"""
+
         profile = request.user.profile
         avatar = request.FILES['avatar']
 

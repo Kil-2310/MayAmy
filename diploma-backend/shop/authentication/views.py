@@ -9,17 +9,15 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .serializers import UserLoginSerializer, UserRegistrationSerializer
 from user_profile.models import Profile
 
 
 @extend_schema(
     tags=['auth'],
     description="Регистрация нового пользователя",
-    request=UserRegistrationSerializer,
     responses={
         200: {"description": "Successful operation"},
-        400: {"description": "Validation Error"},
+        409: {"description": "Conflict"},
     },
 )
 class RegistrationView(APIView):
@@ -33,6 +31,9 @@ class RegistrationView(APIView):
         password = data.get("password")
         name = data.get("name")
 
+        if User.objects.filter(username=username).exists():
+            return Response({"message": "Username already exists"}, status=status.HTTP_409_CONFLICT)
+
         user = User.objects.create_user(username=username, password=password)
         Profile.objects.create(user=user, fullName=name)
         login(request, user)
@@ -45,10 +46,8 @@ class RegistrationView(APIView):
     description="Вход в аккаунт",
     responses={
         200: {"description": "Successful operation"},
-        400: {"description": "Validation Error"},
         404: {"description": "Not found"},
     },
-    request=UserLoginSerializer,
 )
 class LoginView(APIView):
     permission_classes = [AllowAny]
