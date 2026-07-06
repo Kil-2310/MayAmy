@@ -45,30 +45,3 @@ class UpdatePasswordSerializer(serializers.Serializer):
 
     currentPassword = serializers.CharField()
     newPassword = serializers.CharField()
-
-
-class UpdateAvatarSerializer(serializers.Serializer):
-    """Сериалайзер для аватара"""
-
-    avatar = serializers.ImageField(required=True, allow_empty_file=False)
-
-    def validate_avatar(self, value):
-        """Дополнительная валидация изображения"""
-
-        max_size = 5 * 1024 * 1024
-        if value.size > max_size:
-            raise serializers.ValidationError(
-                f'Image size must not exceed {max_size // (1024 * 1024)}MB'
-            )
-
-        allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-        if value.content_type not in allowed_types:
-            raise serializers.ValidationError(
-                f'Unsupported file type. Allowed: {", ".join(allowed_types)}'
-            )
-
-        allowed_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-        if not any(value.name.lower().endswith(ext) for ext in allowed_extensions):
-            raise serializers.ValidationError(
-                f'Unsupported file extension. Allowed: {", ".join(allowed_extensions)}'
-            )

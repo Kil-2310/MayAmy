@@ -10,7 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from os import getenv
 from pathlib import Path
+import logging.config
+
+from dotenv import load_dotenv
+
+
+env_file = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(env_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +28,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%vcbd1!81dbl&*16lv-#!0ot_pzpv3%zwzu#n!$z)shbgq-)bk'
+SECRET_KEY = getenv('DJANGO_SECRET_KEY', 'django-insecure-%vcbd1!81dbl&*16lv-#!0ot_pzpv3%zwzu#n!$z)shbgq-)bk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("DJANGO_DEBUG", "1") == "1"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "0.0.0.0",
+]  + getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -40,9 +51,11 @@ INSTALLED_APPS = [
 
     'frontend',
 
+    'storages',
     'rest_framework',
     'django_filters',
     'drf_spectacular',
+
     'user_profile.apps.UserProfileConfig',
     'authentication.apps.AuthenticationConfig',
     'catalog.apps.CatalogConfig',
@@ -122,11 +135,40 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files
+# S3
 
-STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = getenv('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_ENDPOINT_URL = 'https://s3.twcstorage.ru'
+AWS_S3_REGION_NAME = 'ru-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = 'public-read'
+AWS_QUERYSTRING_AUTH = False
+
+# --- Настройки хранилищ ---
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "endpoint_url": AWS_S3_ENDPOINT_URL,
+            "location": "media",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+STATIC_URL = '/static/'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
+
 
 # Django REST Framework
 
@@ -148,3 +190,29 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# Loging
+
+LOGLEVEL = getenv("DJANGO_LOGLEVEL", "INFO")
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(message)s"
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": LOGLEVEL,
+        },
+    },
+})

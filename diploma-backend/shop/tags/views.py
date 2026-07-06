@@ -16,11 +16,11 @@ from .serializers import TagSerializer
     }
 )
 class TagsView(APIView):
-    """Получение всех тэгов"""
-
     permission_classes = [AllowAny]
 
     def get(self, request: Request) -> Response:
+        """Получение всех тэгов"""
+
         data = Tag.objects.all()
 
         serializer = TagSerializer(data, many=True)
