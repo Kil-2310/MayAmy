@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .serializers import UserLoginSerializer, UserRegistrationSerializer
-from .models import Profile
+from user_profile.models import Profile
 
 
 @extend_schema(
@@ -34,7 +34,7 @@ class RegistrationView(APIView):
         name = data.get("name")
 
         user = User.objects.create_user(username=username, password=password)
-        Profile.objects.create(user=user, name=name)
+        Profile.objects.create(user=user, fullName=name)
         login(request, user)
 
         return Response({"message": "Successful operation"}, status=status.HTTP_200_OK)
