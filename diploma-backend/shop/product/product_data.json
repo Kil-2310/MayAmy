@@ -1,0 +1,325 @@
+[
+  {
+    "model": "product.productpreview",
+    "pk": 1,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "iPhone 15 Pro - фронтальный вид"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 2,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "iPhone 15 Pro - задний вид"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 3,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "MacBook Pro 16 - экран"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 4,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "MacBook Pro 16 - клавиатура"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 5,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "Sony WH-1000XM5 - общий вид"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 6,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "Sony WH-1000XM5 - в кейсе"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 7,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "Футболка Nike - спереди"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 8,
+    "fields": {
+      "preview": "products_preview/Слайд 2.png",
+      "alt": "Футболка Nike - сзади"
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 1,
+    "fields": {
+      "title": "iPhone 15 Pro",
+      "description": "Флагманский смартфон с титановым корпусом и мощным процессором A17 Pro.",
+      "price": "999.99",
+      "count": 10,
+      "freeDelivery": true,
+      "date": "2026-07-01T10:00:00Z",
+      "reviews": 5,
+      "isLimited": "True",
+      "rating": "4.80",
+      "category": 1,
+      "images": [1, 2],
+      "tags": [1]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 2,
+    "fields": {
+      "title": "MacBook Pro 16",
+      "description": "Профессиональный ноутбук с чипом M3 Pro и дисплеем Liquid Retina XDR.",
+      "price": "2499.99",
+      "count": 5,
+      "freeDelivery": false,
+      "date": "2026-07-02T11:00:00Z",
+      "reviews": 3,
+      "rating": "4.90",
+      "category": 2,
+      "images": [3, 4],
+      "tags": [2]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 3,
+    "fields": {
+      "title": "Sony WH-1000XM5",
+      "description": "Беспроводные наушники с активным шумоподавлением и превосходным звуком.",
+      "price": "399.99",
+      "count": 20,
+      "freeDelivery": true,
+      "date": "2026-07-03T12:00:00Z",
+      "reviews": 8,
+      "rating": "4.70",
+      "isLimited": "True",
+      "category": 1,
+      "images": [5, 6],
+      "tags": [3]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 4,
+    "fields": {
+      "title": "Nike Dri-FIT T-Shirt",
+      "description": "Спортивная футболка из дышащего материала, отводящего влагу.",
+      "price": "49.99",
+      "count": 30,
+      "freeDelivery": false,
+      "date": "2026-07-04T13:00:00Z",
+      "reviews": 2,
+      "rating": "4.50",
+      "category": 3,
+      "images": [7, 8],
+      "tags": []
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 1,
+    "fields": {
+      "text": "Отличный телефон! Быстрый, камера супер.",
+      "rate": 5,
+      "date": "2026-07-05T14:00:00Z",
+      "author": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 2,
+    "fields": {
+      "text": "Доволен покупкой, но цена кусается.",
+      "rate": 4,
+      "date": "2026-07-06T09:00:00Z",
+      "author": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 3,
+    "fields": {
+      "text": "Ноутбук мощный, экран шикарный. Рекомендую!",
+      "rate": 5,
+      "date": "2026-07-07T16:00:00Z",
+      "author": 1,
+      "product": 2
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 4,
+    "fields": {
+      "text": "Наушники отличные, шумодав работает идеально.",
+      "rate": 5,
+      "date": "2026-07-08T11:00:00Z",
+      "author": 1,
+      "product": 3
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 5,
+    "fields": {
+      "text": "Футболка удобная, но размер маловат.",
+      "rate": 3,
+      "date": "2026-07-09T10:00:00Z",
+      "author": 1,
+      "product": 4
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "name": "Процессор",
+      "value": "A17 Pro"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "name": "Оперативная память",
+      "value": "8 ГБ"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "name": "Экран",
+      "value": "6.1 дюймов"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 4,
+    "fields": {
+      "product": 2,
+      "name": "Процессор",
+      "value": "M3 Pro"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 5,
+    "fields": {
+      "product": 2,
+      "name": "Оперативная память",
+      "value": "18 ГБ"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 6,
+    "fields": {
+      "product": 2,
+      "name": "Экран",
+      "value": "16.2 дюймов"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 7,
+    "fields": {
+      "product": 3,
+      "name": "Тип",
+      "value": "Наушники"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 8,
+    "fields": {
+      "product": 3,
+      "name": "Шумоподавление",
+      "value": "Да"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 9,
+    "fields": {
+      "product": 4,
+      "name": "Материал",
+      "value": "Полиэстер"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 10,
+    "fields": {
+      "product": 4,
+      "name": "Размер",
+      "value": "L"
+    }
+  },
+  {
+    "model": "product.sales",
+    "pk": 1,
+    "fields": {
+      "salePrice": "899.99",
+      "dateFrom": "2026-07-01",
+      "dateTo": "2026-07-15",
+      "product": 1
+    }
+  },
+  {
+    "model": "product.sales",
+    "pk": 2,
+    "fields": {
+      "salePrice": "2299.99",
+      "dateFrom": "2026-07-05",
+      "dateTo": "2026-07-20",
+      "product": 2
+    }
+  },
+  {
+    "model": "product.sales",
+    "pk": 3,
+    "fields": {
+      "salePrice": "349.99",
+      "dateFrom": "2026-07-10",
+      "dateTo": "2026-07-31",
+      "product": 3
+    }
+  },
+  {
+    "model": "product.banner",
+    "pk": 1,
+    "fields": {
+      "product": 1
+    }
+  },
+  {
+    "model": "product.banner",
+    "pk": 2,
+    "fields": {
+      "product": 2
+    }
+  }
+]

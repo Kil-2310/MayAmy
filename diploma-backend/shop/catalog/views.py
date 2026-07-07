@@ -5,16 +5,10 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from django.db.models import Count
 
-from .serializers import (
-    CategoriesSerializer,
-    CatalogSerializer,
-    SalesSerializer,
-)
-from .models import (
-    Category,
-    Product,
-    Sales,
-)
+from .serializers import CategoriesSerializer, SalesSerializer
+from .models import Category
+from product.serializers import ProductSerializer
+from product.models import Product, Sales
 
 
 @extend_schema(
@@ -32,9 +26,9 @@ class CategoriesView(APIView):
     def get(self, request: Request) -> Response:
         data = Category.objects.all().select_related('image').prefetch_related('subcategories__image')
 
-        serializer = CategoriesSerializer(data, many=True)
-
-        return Response(serializer.data)
+        return Response(
+            CategoriesSerializer(data, many=True)
+        .data)
 
 
 @extend_schema(
@@ -52,9 +46,9 @@ class CatalogView(APIView):
     def get(self, request: Request) -> Response:
         data = Product.objects.all().prefetch_related('images', 'tags')
 
-        serializer = CatalogSerializer(data, many=True)
-
-        return Response({'items': serializer.data})
+        return Response(
+            {'items': ProductSerializer(data, many=True).data}
+        )
 
 
 @extend_schema(
@@ -66,7 +60,6 @@ class CatalogView(APIView):
 )
 class ProductsPopularView(APIView):
     """Получение популярных товаров"""
-
     permission_classes = [AllowAny]
 
     def get(self, request: Request) -> Response:
@@ -79,25 +72,28 @@ class ProductsPopularView(APIView):
             .prefetch_related('images')
         )
 
-        serializer = CatalogSerializer(data, many=True)
-
-        return Response(serializer.data)
+        return Response(
+            ProductSerializer(data, many=True)
+        .data)
 
 
 @extend_schema(
     tags=['catalog'],
-    description="",
+    description="Получение лимитированных товаров",
     responses={
         200: {"description": "Successful operation"},
     }
 )
 class ProductLimitedView(APIView):
-    """"""
-
     permission_classes = [AllowAny]
 
     def get(self, request: Request) -> Response:
-        ...
+        """Получение лимитированных товаров"""
+        products = Product.objects.filter(isLimited=True).all()
+
+        return Response(
+            ProductSerializer(products, many=True)
+        .data)
 
 
 @extend_schema(
@@ -115,9 +111,9 @@ class SalesProductView(APIView):
     def get(self, request: Request) -> Response:
         data = Sales.objects.all().prefetch_related('product__images')
 
-        serializer = SalesSerializer(data, many=True)
-
-        return Response({'items': serializer.data})
+        return Response(
+            {'items': SalesSerializer(data, many=True).data}
+        )
 
 
 @extend_schema(
@@ -140,6 +136,6 @@ class BannersView(APIView):
         .filter(banner_count__gt=0)
         .prefetch_related('tags', 'images'))
 
-        serializer = CatalogSerializer(data, many=True)
-
-        return Response({'items': serializer.data})
+        return Response(
+            {'items': ProductSerializer(data, many=True).data}
+        )

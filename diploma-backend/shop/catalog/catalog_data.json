@@ -1,0 +1,72 @@
+[
+  {
+    "model": "catalog.catalogpreview",
+    "pk": 1,
+    "fields": {
+      "preview": "catalog_preview/%D0%A1%D0%BB%D0%B0%D0%B9%D0%B4_4.png",
+      "alt": "Слайд 4 - Превью каталога",
+      "date": "2026-07-06T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.catalogpreview",
+    "pk": 2,
+    "fields": {
+      "preview": "catalog_preview/category_image.png",
+      "alt": "Изображение категории",
+      "date": "2026-07-06T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.catalogpreview",
+    "pk": 3,
+    "fields": {
+      "preview": "catalog_preview/subcategory_image.png",
+      "alt": "Изображение подкатегории",
+      "date": "2026-07-06T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "title": "Электроника",
+      "image": 2
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "title": "Одежда",
+      "image": null
+    }
+  },
+  {
+    "model": "catalog.subcategory",
+    "pk": 1,
+    "fields": {
+      "title": "Смартфоны",
+      "image": 3,
+      "category": 1
+    }
+  },
+  {
+    "model": "catalog.subcategory",
+    "pk": 2,
+    "fields": {
+      "title": "Ноутбуки",
+      "image": null,
+      "category": 1
+    }
+  },
+  {
+    "model": "catalog.subcategory",
+    "pk": 3,
+    "fields": {
+      "title": "Мужская одежда",
+      "image": null,
+      "category": 2
+    }
+  }
+]

@@ -3,20 +3,18 @@ from rest_framework import serializers
 from .models import (
     Category,
     Subcategory,
-    Image,
-    Product,
-    Sales,
+    CatalogPreview,
 )
-from tags.serializers import TagSerializer
+from product.models import Sales
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class CatalogPreviewSerializer(serializers.ModelSerializer):
     """Сериализатор превью"""
 
     src = serializers.SerializerMethodField()
 
     class Meta:
-        model = Image
+        model = CatalogPreview
         fields = ('src', 'alt')
 
     def get_src(self, obj):
@@ -30,7 +28,7 @@ class ImageSerializer(serializers.ModelSerializer):
 class SubcategorySerializer(serializers.ModelSerializer):
     """Сериализатор подкатегории"""
 
-    image = ImageSerializer()
+    image = CatalogPreviewSerializer()
 
     class Meta:
         model = Subcategory
@@ -40,7 +38,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
 class CategoriesSerializer(serializers.ModelSerializer):
     """Сериализатор для категории"""
 
-    image = ImageSerializer()
+    image = CatalogPreviewSerializer()
     subcategories = SubcategorySerializer(many=True)
 
     class Meta:
@@ -48,36 +46,12 @@ class CategoriesSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'image', 'subcategories')
 
 
-class CatalogSerializer(serializers.ModelSerializer):
-    """Сериализатор для списка товаров"""
-
-    images = ImageSerializer(many=True)
-    tags = TagSerializer(many=True)
-
-    class Meta:
-        model = Product
-        fields = (
-            'id',
-            'category',
-            'price',
-            'count',
-            'date',
-            'title',
-            'description',
-            'freeDelivery',
-            'images',
-            'tags',
-            'reviews',
-            'rating'
-        )
-
-
 class SalesSerializer(serializers.ModelSerializer):
     """Сериализатор для модели Sales"""
 
     title = serializers.CharField(source='product.title', read_only=True)
     price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
-    images = ImageSerializer(source='product.images', many=True, read_only=True)
+    images = CatalogPreviewSerializer(source='product.images', many=True, read_only=True)
 
     class Meta:
         model = Sales
