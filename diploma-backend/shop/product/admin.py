@@ -8,8 +8,6 @@ from .models import (
     Specifications
 )
 
-# TODO После окончания разработки каталога подключить Sales и Banner
-
 class ProductReviewsInline(admin.StackedInline):
     """Инлайн модель отзывов"""
 
@@ -26,12 +24,6 @@ class TagInline(admin.StackedInline):
     """Инлайн модель тэга"""
 
     model = Product.tags.through
-
-
-class CategoryInline(admin.StackedInline):
-    """Инлайн модель подкатегории"""
-
-    model = Product.category.through
 
 
 class ProductPreviewInline(admin.StackedInline):
@@ -62,7 +54,6 @@ class ProductAdmin(admin.ModelAdmin):
         SpecificationsInline,
         ProductReviewsInline,
         TagInline,
-        CategoryInline,
         ProductPreviewInline,
     ]
 
@@ -75,6 +66,8 @@ class BannerAdmin(admin.ModelAdmin):
         'product__title',
     )
 
+    list_select_related = ('product',)
+
 
 @admin.register(Sales)
 class SalesAdmin(admin.ModelAdmin):
@@ -83,3 +76,5 @@ class SalesAdmin(admin.ModelAdmin):
     list_display = (
         'product__title',
     )
+
+    list_select_related = ('product',)

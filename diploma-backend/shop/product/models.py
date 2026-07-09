@@ -1,7 +1,6 @@
 from django.db import models
-from django.shortcuts import get_object_or_404
 
-from catalog.models import Subcategory
+from catalog.models import Category
 from tags.models import Tag
 from django.contrib.auth.models import User
 
@@ -29,20 +28,13 @@ class Product(models.Model):
     rating = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     isLimited = models.BooleanField(default=False)
 
-    category = models.ManyToManyField(Subcategory, related_name='products')
+    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     images = models.ManyToManyField(ProductPreview, related_name='products')
     tags = models.ManyToManyField(Tag, related_name='products')
 
 
     def __str__(self) -> str:
         return self.title
-
-
-    @classmethod
-    def get_by_id(cls, id: int) -> 'Product':
-        """Получение продукта по id или 404"""
-
-        return get_object_or_404(cls, id=id)
 
 
 class ProductReviews(models.Model):
@@ -86,7 +78,7 @@ class Sales(models.Model):
 class Banner(models.Model):
     """Банеры"""
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='banners')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='banner')
 
     def __str__(self) -> str:
         return self.product.title

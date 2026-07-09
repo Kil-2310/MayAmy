@@ -17,7 +17,7 @@ from .serializers import TotalProductSerializer, CreateReviewSerializer, Product
     tags=['product'],
     description="Получение деталей товара",
     responses={
-        200: {"description": "Successful operation"},
+        200: TotalProductSerializer(),
         404: {"description": "Not found"},
     }
 )
@@ -27,20 +27,22 @@ class ProductDetailView(APIView):
     def get(self, request: Request, id: int) -> Response:
         """Получение деталей товара"""
         product = get_object_or_404(
-            Product.objects.prefetch_related('category', 'tags', 'images'),
+            Product.objects
+            .prefetch_related('tags', 'images', 'product_reviews', 'specifications')
+            .select_related('category'),
             id=id
         )
 
         return Response(
-            TotalProductSerializer(product)
-        .data)
+            TotalProductSerializer(product).data
+        )
 
 
 @extend_schema(
     tags=['product'],
     description="Создание отзыва на товар",
     responses={
-        200: {"description": "Successful operation"},
+        200: ProductSerializer(many=True),
         400: {"description": "bad request"},
         404: {"description": "Not found"},
     },
@@ -52,14 +54,19 @@ class CreateReviewView(APIView):
     @transaction.atomic
     def post(self, request: Request, id: int) -> Response:
         """Создание отзыва на товар"""
-        request_serializer = CreateReviewSerializer(data=request.data)
-        if not request_serializer.is_valid():
-            return Response(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = CreateReviewSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         user = request.user
-        text = request_serializer.validated_data['text']
-        rate = Decimal(str(request_serializer.validated_data['rate']))
-        product = get_object_or_404(Product, id=id)
+        text = serializer.validated_data['text']
+        rate = Decimal(str(serializer.validated_data['rate']))
+
+        product = get_object_or_404(
+            Product.objects.prefetch_related('tags', 'images').select_related('category'),
+            id=id
+        )
 
         ProductReviews.objects.create(user=user, text=text, rate=rate, product=product)
         product.reviews += 1
@@ -67,5 +74,5 @@ class CreateReviewView(APIView):
         product.save()
 
         return Response(
-            ProductSerializer([product], many=True)
-        .data)
+            ProductSerializer([product], many=True).data
+        )

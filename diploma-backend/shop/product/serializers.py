@@ -2,7 +2,7 @@ from typing import Union
 
 from rest_framework import serializers
 
-from .models import Product, ProductPreview, Specifications, ProductReviews
+from .models import Product, ProductPreview, Specifications, ProductReviews, Sales
 from tags.serializers import TagSerializer
 
 
@@ -95,8 +95,7 @@ class TotalProductSerializer(serializers.ModelSerializer):
     def get_reviews(self, obj: ProductReviews) -> GetReviewsSerializer:
         """Замена поля reviews из модели ProductReviews и получение массива с отзывами вместо него"""
 
-        reviews = ProductReviews.objects.filter(product=obj)
-        return GetReviewsSerializer(reviews, many=True).data
+        return GetReviewsSerializer(obj.product_reviews, many=True).data
 
 
 class CreateReviewSerializer(serializers.Serializer):
@@ -106,3 +105,23 @@ class CreateReviewSerializer(serializers.Serializer):
     author = serializers.CharField()
     email = serializers.EmailField()
     rate = serializers.FloatField()
+
+
+class SalesSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Sales"""
+
+    title = serializers.CharField(source='product.title')
+    price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2)
+    images = ProductPreviewSerializer(source='product.images', many=True)
+
+    class Meta:
+        model = Sales
+        fields = (
+            'id',
+            'price',
+            'title',
+            'salePrice',
+            'dateFrom',
+            'dateTo',
+            'images',
+        )

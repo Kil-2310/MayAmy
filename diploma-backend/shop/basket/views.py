@@ -61,7 +61,7 @@ class BasketView(APIView):
         count = serializer.validated_data["count"]
 
         product = get_object_or_404(
-            Product.objects.prefetch_related('tags', 'images'),
+            Product.objects.prefetch_related('tags', 'images').select_related('category'),
             id=product_id
         )
 
@@ -116,7 +116,7 @@ class BasketView(APIView):
         count = serializer.validated_data["count"]
 
         product = get_object_or_404(
-            Product.objects.prefetch_related('tags', 'images'),
+            Product.objects.prefetch_related('tags', 'images').select_related('category'),
             id=product_id
         )
         basket = get_object_or_404(
