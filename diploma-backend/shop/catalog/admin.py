@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Subcategory, CatalogPreview
+from .models import Category, Subcategory, SubcategoryPreview, CategoryPreview
 
 
 class CategoryInline(admin.StackedInline):
@@ -15,10 +15,19 @@ class SubcategoryInline(admin.StackedInline):
     model = Subcategory
 
 
-@admin.register(CatalogPreview)
+@admin.register(CategoryPreview)
 class CatalogPreviewAdmin(admin.ModelAdmin):
-    """Админка для превью с категориями и подкатегориями"""
+    """Админка для превью с категориями"""
 
     list_display = ('id', 'alt', 'preview')
 
-    inlines = [CategoryInline, SubcategoryInline]
+    inlines = [CategoryInline]
+
+
+@admin.register(SubcategoryPreview)
+class CatalogPreviewAdmin(admin.ModelAdmin):
+    """Админка для превью с подкатегориями"""
+
+    list_display = ('id', 'alt', 'preview')
+
+    inlines = [SubcategoryInline]

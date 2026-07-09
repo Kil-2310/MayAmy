@@ -13,7 +13,7 @@ from .views import (
 app_name = 'catalog'
 
 urlpatterns = [
-    path('categories/', CategoriesView.as_view(), name='categories'),
+    path('categories', CategoriesView.as_view(), name='categories'),
     path('catalog', CatalogView.as_view(), name='catalog'),
     path('products/popular', ProductsPopularView.as_view(), name='products_popular'),
     path('products/limited', ProductLimitedView.as_view(), name='products_limited'),

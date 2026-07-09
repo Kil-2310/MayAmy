@@ -1,26 +1,39 @@
+from typing import Union
+
 from rest_framework import serializers
 
 from .models import (
     Category,
     Subcategory,
-    CatalogPreview,
+    CategoryPreview,
+    SubcategoryPreview,
 )
-from product.models import Sales
 
 
 class CatalogPreviewSerializer(serializers.ModelSerializer):
     """Сериализатор превью"""
-
     src = serializers.SerializerMethodField()
 
     class Meta:
-        model = CatalogPreview
+        model = CategoryPreview
+        fields = ('src', 'alt')
+
+    def get_src(self, obj: CategoryPreview) -> Union[None, str]:
+        if obj.preview:
+            return obj.preview.url
+        return None
+
+
+class SubcategoryPreviewSerializer(serializers.ModelSerializer):
+    """Сериализатор превью"""
+    src = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SubcategoryPreview
         fields = ('src', 'alt')
 
     def get_src(self, obj):
-        """Проверяет путь до файла"""
-
-        if obj and obj.preview:
+        if obj.preview:
             return obj.preview.url
         return None
 
@@ -28,7 +41,7 @@ class CatalogPreviewSerializer(serializers.ModelSerializer):
 class SubcategorySerializer(serializers.ModelSerializer):
     """Сериализатор подкатегории"""
 
-    image = CatalogPreviewSerializer()
+    image = SubcategoryPreviewSerializer()
 
     class Meta:
         model = Subcategory
@@ -44,23 +57,3 @@ class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'title', 'image', 'subcategories')
-
-
-class SalesSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Sales"""
-
-    title = serializers.CharField(source='product.title', read_only=True)
-    price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
-    images = CatalogPreviewSerializer(source='product.images', many=True, read_only=True)
-
-    class Meta:
-        model = Sales
-        fields = (
-            'id',
-            'price',
-            'title',
-            'salePrice',
-            'dateFrom',
-            'dateTo',
-            'images',
-        )
