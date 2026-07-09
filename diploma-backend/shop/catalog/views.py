@@ -3,6 +3,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count, Prefetch
 
 from .serializers import CategoriesSerializer
@@ -10,6 +13,7 @@ from .models import Category
 from product.serializers import ProductSerializer, SalesSerializer
 from product.models import Product, Sales
 from .models import Subcategory
+from .filters import ProductFilter, CatalogPagination
 
 
 @extend_schema(
@@ -47,20 +51,26 @@ class CategoriesView(APIView):
         200: ProductSerializer(many=True),
     }
 )
-class CatalogView(APIView):
+class CatalogView(ReadOnlyModelViewSet):
+    """Получение каталога со всеми товарами"""
     permission_classes = [AllowAny]
 
-    def get(self, request: Request) -> Response:
-        """Получение каталога со всеми товарами"""
-        products = (
-            Product.objects
-            .prefetch_related('images', 'tags')
-            .select_related('category')
-        )
+    serializer_class = ProductSerializer
+    pagination_class = CatalogPagination
+    queryset = (
+        Product.objects
+        .prefetch_related('images', 'tags')
+        .select_related('category')
+    )
 
-        return Response(
-            {'items': ProductSerializer(products, many=True).data}
-        )
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+    ]
+
+    filterset_class = ProductFilter
+    search_fields = ['title', 'description']
+    ordering_fields = ['price', 'date', 'reviews', 'rating']
 
 
 @extend_schema(
