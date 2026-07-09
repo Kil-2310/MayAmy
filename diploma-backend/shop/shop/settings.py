@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_spectacular',
-
+    'order.apps.OrderConfig',
     'user_profile.apps.UserProfileConfig',
     'authentication.apps.AuthenticationConfig',
     'catalog.apps.CatalogConfig',
