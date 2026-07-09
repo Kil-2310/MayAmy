@@ -3,70 +3,28 @@
     "model": "tags.tag",
     "pk": 1,
     "fields": {
-      "name": "Смартфоны"
+      "name": "Современные смартфоны"
     }
   },
   {
     "model": "tags.tag",
-    "pk": 2,
+    "pk": 1,
     "fields": {
-      "name": "Ноутбуки"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 3,
-    "fields": {
-      "name": "Наушники"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 4,
-    "fields": {
-      "name": "Смарт-часы"
+      "name": "Устаревшие смартфоны"
     }
   },
   {
     "model": "tags.tag",
     "pk": 5,
     "fields": {
-      "name": "Телевизоры"
+      "name": "Современные телевизоры"
     }
   },
   {
     "model": "tags.tag",
-    "pk": 6,
+    "pk": 5,
     "fields": {
-      "name": "Планшеты"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 7,
-    "fields": {
-      "name": "Комплектующие ПК"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 8,
-    "fields": {
-      "name": "Игровые консоли"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 9,
-    "fields": {
-      "name": "Умный дом"
-    }
-  },
-  {
-    "model": "tags.tag",
-    "pk": 10,
-    "fields": {
-      "name": "Фототехника"
+      "name": "Устаревшие Телевизоры"
     }
   }
 ]
