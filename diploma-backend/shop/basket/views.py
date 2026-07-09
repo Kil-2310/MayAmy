@@ -11,12 +11,11 @@ from django.shortcuts import get_object_or_404
 from .models import Basket
 from product.serializers import ProductSerializer
 from product.models import Product
-from .serializers import BasketSerializer, GetBasketSerializer
+from .serializers import PostBasketSerializer, GetBasketSerializer
 
 
 class BasketView(APIView):
     """CRD операции для корзины"""
-
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
@@ -27,12 +26,17 @@ class BasketView(APIView):
         }
     )
     def get(self, request: Request) -> Response:
-        """Получение корзины"""
-        basket = Basket.objects.filter(user=self.request.user).prefetch_related('product')
+        """Получение корзины текущего пользователя"""
+        basket = (
+            Basket.objects.filter(user=self.request.user)
+            .select_related('product')
+            .prefetch_related('product__images', 'product__tags')
+        )
 
         return Response(
-            GetBasketSerializer(basket, many=True)
-        .data)
+            GetBasketSerializer(basket, many=True).data,
+            status=status.HTTP_200_OK
+        )
 
 
     @extend_schema(
@@ -43,20 +47,23 @@ class BasketView(APIView):
             400: {"description": "Bad Request"},
             404: {"description": "Product not found"},
         },
-        request=BasketSerializer,
+        request=PostBasketSerializer,
     )
     @transaction.atomic
     def post(self, request: Request) -> Response:
         """Добавление товара в корзину"""
-        request_serializer = BasketSerializer(data=request.data)
+        serializer = PostBasketSerializer(data=request.data)
 
-        if not request_serializer.is_valid():
-            return Response(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        product_id = request_serializer.validated_data["id"]
-        count = request_serializer.validated_data["count"]
+        product_id = serializer.validated_data["id"]
+        count = serializer.validated_data["count"]
 
-        product = get_object_or_404(Product, id=product_id)
+        product = get_object_or_404(
+            Product.objects.prefetch_related('tags', 'images'),
+            id=product_id
+        )
 
         if count > product.count:
             return Response({
@@ -81,8 +88,10 @@ class BasketView(APIView):
         finally:
             product.save()
 
-        response_serializer = ProductSerializer(product)
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            ProductSerializer(product).data,
+            status=status.HTTP_200_OK
+        )
 
 
     @extend_schema(
@@ -93,12 +102,12 @@ class BasketView(APIView):
             400: {"description": "Bad Request"},
             404: {"description": "Product not found"},
         },
-        request=BasketSerializer,
+        request=PostBasketSerializer,
     )
     @transaction.atomic
     def delete(self, request: Request) -> Response:
         """Удаление товара из корзины"""
-        serializer = BasketSerializer(data=request.data)
+        serializer = PostBasketSerializer(data=request.data)
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -106,7 +115,10 @@ class BasketView(APIView):
         product_id = serializer.validated_data["id"]
         count = serializer.validated_data["count"]
 
-        product = get_object_or_404(Product, id=product_id)
+        product = get_object_or_404(
+            Product.objects.prefetch_related('tags', 'images'),
+            id=product_id
+        )
         basket = get_object_or_404(
             Basket,
             product=product,
@@ -127,5 +139,7 @@ class BasketView(APIView):
             basket.save()
         product.save()
 
-        serializer = ProductSerializer(product)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            ProductSerializer(product).data,
+            status=status.HTTP_200_OK
+        )

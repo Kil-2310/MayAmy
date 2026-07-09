@@ -7,4 +7,4 @@ from .models import Basket
 class BasketAdmin(admin.ModelAdmin):
     """Модель админки для корзины клиента"""
 
-    fields = ('id', 'product', 'user', 'count', )
+    list_display = ('id', 'product', 'user', 'count', )

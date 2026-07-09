@@ -5,7 +5,7 @@ from product.serializers import ProductPreviewSerializer
 from .models import Basket
 
 
-class BasketSerializer(serializers.Serializer):
+class PostBasketSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=True)
     count = serializers.IntegerField(required=True, min_value=1)
 
