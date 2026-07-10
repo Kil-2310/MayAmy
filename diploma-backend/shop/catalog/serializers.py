@@ -1,59 +1,38 @@
-from typing import Union
-
 from rest_framework import serializers
-
-from .models import (
-    Category,
-    Subcategory,
-    CategoryPreview,
-    SubcategoryPreview,
-)
-
-
-class CatalogPreviewSerializer(serializers.ModelSerializer):
-    """Сериализатор превью"""
-    src = serializers.SerializerMethodField()
-
-    class Meta:
-        model = CategoryPreview
-        fields = ('src', 'alt')
-
-    def get_src(self, obj: CategoryPreview) -> Union[None, str]:
-        if obj.preview:
-            return obj.preview.url
-        return None
-
-
-class SubcategoryPreviewSerializer(serializers.ModelSerializer):
-    """Сериализатор превью"""
-    src = serializers.SerializerMethodField()
-
-    class Meta:
-        model = SubcategoryPreview
-        fields = ('src', 'alt')
-
-    def get_src(self, obj):
-        if obj.preview:
-            return obj.preview.url
-        return None
+from .models import Category
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    """Сериализатор подкатегории"""
+    """Сериализатор для подкатегорий"""
 
-    image = SubcategoryPreviewSerializer()
-
-    class Meta:
-        model = Subcategory
-        fields = ('id', 'title', 'image')
-
-
-class CategoriesSerializer(serializers.ModelSerializer):
-    """Сериализатор для категории"""
-
-    image = CatalogPreviewSerializer()
-    subcategories = SubcategorySerializer(many=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
-        fields = ('id', 'title', 'image', 'subcategories')
+        fields = ('id', 'title', 'image',)
+
+
+    def get_image(self, obj):
+
+        return {
+            'src': obj.image.url if obj.image else None,
+            'alt': obj.title
+        }
+
+
+class MainCategoriesSerializer(serializers.ModelSerializer):
+    """Сериализатор для главных категорий"""
+
+    subcategories = SubcategorySerializer(many=True)
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'image', 'subcategories',)
+
+    def get_image(self, obj):
+
+        return {
+            'src': obj.image.url if obj.image else None,
+            'alt': obj.title
+        }

@@ -1,52 +1,29 @@
 [
   {
-    "model": "catalog.categorypreview",
-    "pk": 1,
-    "fields": {
-      "preview": "category_preview/electronics.avif",
-      "alt": "Электроника"
-    }
-  },
-  {
-    "model": "catalog.subcategorypreview",
-    "pk": 1,
-    "fields": {
-      "preview": "subcategory_preview/phones.jpg",
-      "alt": "Смартфоны"
-    }
-  },
-  {
-    "model": "catalog.subcategorypreview",
-    "pk": 2,
-    "fields": {
-      "preview": "subcategory_preview/tv.webp",
-      "alt": "Телевизоры"
-    }
-  },
-  {
     "model": "catalog.category",
     "pk": 1,
     "fields": {
       "title": "Электроника",
-      "image": 1
+      "image": "categories/electronics.avif",
+      "parent": null
     }
   },
   {
-    "model": "catalog.subcategory",
-    "pk": 1,
-    "fields": {
-      "title": "Смартфоны",
-      "image": 1,
-      "category": 1
-    }
-  },
-  {
-    "model": "catalog.subcategory",
+    "model": "catalog.category",
     "pk": 2,
     "fields": {
+      "title": "Смартфоны",
+      "image": "categories/phones.jpg",
+      "parent": 1
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
       "title": "Телевизоры",
-      "image": 2,
-      "category": 1
+      "image": "categories/tv.webp",
+      "parent": 1
     }
   }
 ]

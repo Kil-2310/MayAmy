@@ -8,19 +8,18 @@ from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count, Prefetch
 
-from .serializers import CategoriesSerializer
 from .models import Category
 from product.serializers import ProductSerializer, SalesSerializer
 from product.models import Product, Sales
-from .models import Subcategory
 from .filters import ProductFilter, CatalogPagination
+from .serializers import MainCategoriesSerializer
 
 
 @extend_schema(
     tags=['catalog'],
     description="Получение всех категорий и подкатегорий",
     responses={
-        200: CategoriesSerializer(many=True),
+        200: MainCategoriesSerializer(many=True),
     }
 )
 class CategoriesView(APIView):
@@ -28,19 +27,10 @@ class CategoriesView(APIView):
 
     def get(self, request: Request) -> Response:
         """Получение всех категорий и подкатегорий"""
-        categories = (
-            Category.objects
-            .select_related('image')
-            .prefetch_related(
-                Prefetch(
-                    'subcategories',
-                    queryset=Subcategory.objects.select_related('image')
-                )
-            )
-        )
+        categories = Category.objects.prefetch_related('subcategories')
 
         return Response(
-            CategoriesSerializer(categories, many=True).data
+            MainCategoriesSerializer(categories, many=True).data
         )
 
 
