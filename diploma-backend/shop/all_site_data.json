@@ -1,5 +1,94 @@
 [
   {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "bob",
+      "password": "pbkdf2_sha256$870000$rawgwKFhRxH5knoL7moTaT$DXew3oq4edfMESnlbVXfsvPJpY3iWkiGsxtQ8a6PERc=",
+      "email": "bob@example.com",
+      "first_name": "Bob",
+      "last_name": "Smith",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "date_joined": "2026-07-08T10:00:00Z",
+      "last_login": "2026-07-08T10:00:00Z"
+    }
+  },
+  {
+    "model": "user_profile.profile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "fullName": "Bob Smith",
+      "phone": "+7 123 456-78-90"
+    }
+  },
+  {
+    "model": "user_profile.profileavatar",
+    "pk": 1,
+    "fields": {
+      "alt": "Bob's avatar",
+      "preview": "user_avatar/bob.jpg",
+      "profile": 1
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Современные смартфоны"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Устаревшие смартфоны"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Современные телевизоры"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Устаревшие Телевизоры"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "title": "Электроника",
+      "image": "categories/electronics.avif",
+      "parent": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "title": "Смартфоны",
+      "image": "categories/phones.jpg",
+      "parent": 1
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "title": "Телевизоры",
+      "image": "categories/tv.webp",
+      "parent": 1
+    }
+  },
+  {
     "model": "product.productpreview",
     "pk": 1,
     "fields": {
