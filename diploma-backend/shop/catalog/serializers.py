@@ -1,92 +1,38 @@
 from rest_framework import serializers
-
-from .models import (
-    Category,
-    Subcategory,
-    Image,
-    Product,
-    Sales,
-)
-from tags.serializers import TagSerializer
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    """Сериализатор превью"""
-
-    src = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Image
-        fields = ('src', 'alt')
-
-    def get_src(self, obj):
-        """Проверяет путь до файла"""
-
-        if obj and obj.preview:
-            return obj.preview.url
-        return None
+from .models import Category
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    """Сериализатор подкатегории"""
+    """Сериализатор для подкатегорий"""
 
-    image = ImageSerializer()
-
-    class Meta:
-        model = Subcategory
-        fields = ('id', 'title', 'image')
-
-
-class CategoriesSerializer(serializers.ModelSerializer):
-    """Сериализатор для категории"""
-
-    image = ImageSerializer()
-    subcategories = SubcategorySerializer(many=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
-        fields = ('id', 'title', 'image', 'subcategories')
+        fields = ('id', 'title', 'image',)
 
 
-class CatalogSerializer(serializers.ModelSerializer):
-    """Сериализатор для списка товаров"""
+    def get_image(self, obj):
 
-    images = ImageSerializer(many=True)
-    tags = TagSerializer(many=True)
-
-    class Meta:
-        model = Product
-        fields = (
-            'id',
-            'category',
-            'price',
-            'count',
-            'date',
-            'title',
-            'description',
-            'freeDelivery',
-            'images',
-            'tags',
-            'reviews',
-            'rating'
-        )
+        return {
+            'src': obj.image.url if obj.image else None,
+            'alt': obj.title
+        }
 
 
-class SalesSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Sales"""
+class MainCategoriesSerializer(serializers.ModelSerializer):
+    """Сериализатор для главных категорий"""
 
-    title = serializers.CharField(source='product.title', read_only=True)
-    price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
-    images = ImageSerializer(source='product.images', many=True, read_only=True)
+    subcategories = SubcategorySerializer(many=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
-        model = Sales
-        fields = (
-            'id',
-            'price',
-            'title',
-            'salePrice',
-            'dateFrom',
-            'dateTo',
-            'images',
-        )
+        model = Category
+        fields = ('id', 'title', 'image', 'subcategories',)
+
+    def get_image(self, obj):
+
+        return {
+            'src': obj.image.url if obj.image else None,
+            'alt': obj.title
+        }
