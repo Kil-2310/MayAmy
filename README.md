@@ -12,6 +12,7 @@
 
 * Сборка Backend
 - cd ../diploma-backend/shop/
+- python manage.py migrate
 - python manage.py loaddata all_site_data.json 
 - python manage.py runserver
 
