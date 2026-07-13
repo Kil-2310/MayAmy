@@ -1,13 +1,15 @@
 from rest_framework import serializers
 
 from .models import Order
+from product.serializers import ProductSerializer
 
-# TODO Добавить сериализатор для товаров
+
 class MainOrderSerializer(serializers.ModelSerializer):
 
     fullName = serializers.CharField(source='profile.fullName')
     email = serializers.EmailField(source='profile.email')
     phone = serializers.CharField(source='profile.phone')
+    products = ProductSerializer(many=True)
 
     class Meta:
         model = Order
@@ -23,4 +25,5 @@ class MainOrderSerializer(serializers.ModelSerializer):
             'status',
             'city',
             'address',
+            'products',
         )
