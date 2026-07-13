@@ -170,6 +170,38 @@ STORAGES = {
 STATIC_URL = '/static/'
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
 
+# Настройка Redis
+
+if not DEBUG:
+    REDIS_PASSWORD = getenv('REDIS_PASSWORD', '')
+    REDIS_URL = getenv('REDIS_URL', f'redis://localhost:6379/1')
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'PASSWORD': REDIS_PASSWORD if REDIS_PASSWORD else None,
+                'SOCKET_CONNECT_TIMEOUT': 5,
+                'SOCKET_TIMEOUT': 5,
+                'RETRY_ON_TIMEOUT': True,
+                'MAX_CONNECTIONS': 100,
+                'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
+                'CONNECTION_POOL_CLASS_KWARGS': {
+                    'max_connections': 50,
+                    'timeout': 20,
+                },
+            },
+            'KEY_PREFIX': 'django_cache',
+            'TIMEOUT': 120,
+        }
+    }
+
+    REST_FRAMEWORK_CACHE = {
+        'DEFAULT_CACHE_RESPONSE_TIMEOUT': 120,
+    }
+
 
 # Django REST Framework
 

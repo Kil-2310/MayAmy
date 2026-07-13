@@ -6,7 +6,9 @@ from rest_framework.request import Request
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Count, Prefetch
+from django.db.models import Count
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .models import Category
 from product.serializers import ProductSerializer, SalesSerializer
@@ -25,6 +27,7 @@ from .serializers import MainCategoriesSerializer
 class CategoriesView(APIView):
     permission_classes = [AllowAny]
 
+    @method_decorator(cache_page(60 * 2))
     def get(self, request: Request) -> Response:
         """Получение всех категорий и подкатегорий"""
         categories = Category.objects.prefetch_related('subcategories')
@@ -61,6 +64,10 @@ class CatalogView(ReadOnlyModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'date', 'reviews', 'rating']
+
+    @method_decorator(cache_page(60 * 2))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 @extend_schema(
