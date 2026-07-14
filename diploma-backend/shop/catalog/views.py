@@ -160,5 +160,5 @@ class BannersView(APIView):
         )
 
         return Response(
-            {'items': ProductSerializer(products, many=True).data}
+            ProductSerializer(products, many=True).data
         )

@@ -9,4 +9,4 @@ class Basket(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='basket')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    count = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=1)

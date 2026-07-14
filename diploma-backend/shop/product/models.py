@@ -78,7 +78,7 @@ class Sales(models.Model):
 class Banner(models.Model):
     """Банеры"""
 
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='banner')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='banner')
 
     def __str__(self) -> str:
         return self.product.title
