@@ -2,19 +2,14 @@
 
 Стек: Python, Django, rest_framework, Redis, S3.
 
-Инструкция для запуска проекта:
+Перед запуском проекта необходимо заполнить файл .env в дирректории diploma-backend
 
-* Сборка Frontend:
-- pip install -r requirements.txt
-- cd diploma-frontend
-- python setup.py sdist
-- pip install dist/diploma_frontend-0.6.tar.gz
+Инструкция по запуску и остановке проекта:
 
-* Сборка Backend
-- cd ../diploma-backend/shop/
-- python manage.py migrate
-- python manage.py loaddata all_site_data.json 
-- python manage.py runserver
+``` bash
+   docker compose up -d
+   docker compose down
+```
 
 После установки всех будет доступен url: http://127.0.0.1:8000/
 Swagger находится по адресу: http://127.0.0.1:8000/api/schema/swagger/
