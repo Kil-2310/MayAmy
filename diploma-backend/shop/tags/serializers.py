@@ -9,3 +9,9 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name')
+
+class PostTagsSerializer(serializers.Serializer):
+    """Отправка тэгов"""
+
+    id = serializers.IntegerField()
+    name = serializers.CharField()
