@@ -114,7 +114,7 @@ class DetailOrder(APIView):
         tags=['order'],
         description="Получение конкретного заказа",
         responses={
-            200: OrderSerializer(),
+            200: {"description": "Successful operation"},
             404: {"description": "Not found"},
         },
     )
@@ -167,5 +167,6 @@ class DetailOrder(APIView):
         order.save()
 
         return Response(
-            {"description": "Successful operation"}
+            {'orderId': order.pk},
+            status=status.HTTP_200_OK
         )

@@ -1,5 +1,6 @@
 from django.db import models
 
+import order
 from product.models import Product
 from user_profile.models import Profile
 
@@ -17,6 +18,9 @@ class Order(models.Model):
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='order_profile')
 
+    def __str__(self) -> str:
+        return f'Order {self.pk}'
+
 
 class OrderItem(models.Model):
     """Позиции в казазе"""
@@ -26,3 +30,6 @@ class OrderItem(models.Model):
 
     count = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return f'Order item {self.product.title}'

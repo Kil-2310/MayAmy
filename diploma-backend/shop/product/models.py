@@ -66,8 +66,8 @@ class Sales(models.Model):
     """Проданные продукты"""
 
     salePrice = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    dateFrom = models.DateField()
-    dateTo = models.DateField()
+    dateFrom = models.CharField(max_length=5)
+    dateTo = models.CharField(max_length=5)
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sales')
 
