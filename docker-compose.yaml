@@ -4,3 +4,32 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "8000:8000"
+    command: >
+      sh -c "
+        python /app/diploma-backend/shop/manage.py collectstatic --noinput &&
+        python /app/diploma-backend/shop/manage.py migrate &&
+        python /app/diploma-backend/shop/manage.py loaddata /app/diploma-backend/shop/all_site_data.json &&
+        gunicorn --chdir /app/diploma-backend/shop --bind 0.0.0.0:8000 shop.wsgi:application
+      "
+    env_file:
+      - ./.env
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '5433:${POSTGRES_PORT}'
+    volumes:
+      - ./db/:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - ${REDIS_PORT}
+    env_file:
+      - ./.env

@@ -431,8 +431,8 @@
     "pk": 1,
     "fields": {
       "salePrice": 999.00,
-      "dateFrom": "2026-01-01",
-      "dateTo": "2026-12-31",
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
       "product": 3
     }
   },
@@ -441,8 +441,8 @@
     "pk": 2,
     "fields": {
       "salePrice": 89990.00,
-      "dateFrom": "2026-01-01",
-      "dateTo": "2026-12-31",
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
       "product": 4
     }
   },

@@ -9,12 +9,11 @@ import logging.config
 from dotenv import load_dotenv
 
 
-env_file = Path(__file__).parent.parent.parent / ".env"
+env_file = Path(__file__).parent.parent.parent.parent / ".env"
 load_dotenv(env_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = getenv('DJANGO_SECRET_KEY', 'django-insecure-%vcbd1!81dbl&*16lv-#!0ot_pzpv3%zwzu#n!$z)shbgq-)bk')
@@ -58,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -88,12 +88,29 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    POSTGRES_USER = getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
+    POSTGRES_NAME = getenv("POSTGRES_NAME")
+    POSTGRES_PORT = getenv("POSTGRES_PORT", "5432")
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': POSTGRES_NAME,
+            'USER': POSTGRES_USER,
+            'PASSWORD': POSTGRES_PASSWORD,
+            'HOST': "postgres",
+            'PORT': POSTGRES_PORT,
+        }
+    }
 
 
 # Password validation
@@ -145,7 +162,7 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
@@ -153,24 +170,23 @@ STORAGES = {
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise для раздачи статики
-
 # ============== МЕДИА (S3) ==============
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
 
-
 # ============== REDIS ==============
 if not DEBUG:
-    REDIS_PASSWORD = getenv('REDIS_PASSWORD', '')
-    REDIS_URL = getenv('REDIS_URL', f'redis://localhost:6379/1')
+    REDIS_URL = getenv('REDIS_URL')
+    REDIS_PORT = getenv('REDIS_PORT', 6379)
+    REDIS_CACHE_NUMBER_DATABASE = getenv('REDIS_CACHE_NUMBER_DATABASE', 1)
+
+    REDIS_CACHE_URL = f'{REDIS_URL}:{REDIS_PORT}/{REDIS_CACHE_NUMBER_DATABASE}'
 
     CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': REDIS_URL,
+            'LOCATION': REDIS_CACHE_URL,
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                'PASSWORD': REDIS_PASSWORD if REDIS_PASSWORD else None,
                 'SOCKET_CONNECT_TIMEOUT': 5,
                 'SOCKET_TIMEOUT': 5,
                 'RETRY_ON_TIMEOUT': True,
