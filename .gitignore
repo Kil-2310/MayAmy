@@ -177,3 +177,6 @@ next-env.d.ts
 .next/
 out/
 .vscode/
+
+staticfiles/
+db/
