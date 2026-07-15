@@ -43,29 +43,25 @@ Backend
 
 Для запуска проекта после клонирования требуется обеспечить доступ к объектному хранилищу: приобрести тариф по ссылке https://timeweb.cloud/my/projects/1930223 либо использовать существующее S3-хранилище. Затем необходимо настроить окружение, заполнив файл .env согласно шаблону .env.template (образец заполнения прилагается ниже).
 
-# Django settings
 DJANGO_SECRET_KEY=
 DJANGO_DEBUG=1
 DJANGO_LOGLEVEL=INFO
 DJANGO_ALLOWED_HOSTS=
 
-# S3 settings
 AWS_ACCESS_KEY_ID='Ваш S3 Access Key'
 AWS_SECRET_ACCESS_KEY='Ваш S3 Secret Access Key'
 AWS_STORAGE_BUCKET_NAME='Название бакета'
 
-# Redis settings
 REDIS_PORT=6379
 REDIS_CACHE_NUMBER_DATABASE=1
 REDIS_URL=redis://redis
 
-# Database settings
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=123
 POSTGRES_DB=test_database
 POSTGRES_PORT=5432
 
-Инструкция по запуску и остановке проекта:
+**Инструкция по запуску и остановке проекта**
 
 ``` bash
    docker compose up -d

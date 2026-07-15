@@ -89,6 +89,8 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # Database
 if DEBUG:
+    print('--- Database is SqLite ---')
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -96,6 +98,8 @@ if DEBUG:
         }
     }
 else:
+    print('--- Database is PostgreSQL ---')
+
     POSTGRES_USER = getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
     POSTGRES_NAME = getenv("POSTGRES_NAME")
