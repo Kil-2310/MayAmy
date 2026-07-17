@@ -57,7 +57,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -166,7 +165,7 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
@@ -182,8 +181,9 @@ if not DEBUG:
     REDIS_URL = getenv('REDIS_URL')
     REDIS_PORT = getenv('REDIS_PORT', 6379)
     REDIS_CACHE_NUMBER_DATABASE = getenv('REDIS_CACHE_NUMBER_DATABASE', 1)
+    REDIS_HOST = getenv("REDIS_HOST")
 
-    REDIS_CACHE_URL = f'{REDIS_URL}:{REDIS_PORT}/{REDIS_CACHE_NUMBER_DATABASE}'
+    REDIS_CACHE_URL = f'{REDIS_URL}{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_NUMBER_DATABASE}'
 
     CACHES = {
         'default': {

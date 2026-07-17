@@ -8,7 +8,7 @@ COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r ./requirements.txt
 
 COPY ./diploma-frontend ./diploma-frontend
-COPY ./diploma-backend ./diploma-backend
+COPY ./diploma-backend/shop ./diploma-backend
 
 WORKDIR /app/diploma-frontend
 RUN python setup.py sdist

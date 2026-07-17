@@ -68,4 +68,4 @@ POSTGRES_PORT=5432
    docker compose down
 ```
 
-После запуска, проект доступен по url: http://127.0.0.1:8000/. Swagger находится по адресу: http://127.0.0.1:8000/api/schema/swagger/
+После запуска, проект доступен по url: http://127.0.0.1. Swagger находится по адресу: http://127.0.0.1/api/schema/swagger/

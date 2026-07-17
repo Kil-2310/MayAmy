@@ -1,16 +1,27 @@
 services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./staticfiles/:/staticfiles/
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
   app:
     build:
       dockerfile: ./Dockerfile
-    ports:
-      - "8000:8000"
     command: >
       sh -c "
-        python /app/diploma-backend/shop/manage.py collectstatic --noinput &&
-        python /app/diploma-backend/shop/manage.py migrate &&
-        python /app/diploma-backend/shop/manage.py loaddata /app/diploma-backend/shop/all_site_data.json &&
-        gunicorn --chdir /app/diploma-backend/shop --bind 0.0.0.0:8000 shop.wsgi:application
+        python /app/diploma-backend/manage.py collectstatic --noinput &&
+        python /app/diploma-backend/manage.py migrate &&
+        gunicorn --chdir /app/diploma-backend --bind 0.0.0.0:8000 shop.wsgi:application
       "
+    ports:
+      - "8000"
+    volumes:
+      - ./staticfiles/:/app/diploma-backend/staticfiles/
     env_file:
       - ./.env
 
