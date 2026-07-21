@@ -177,13 +177,23 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
 
 # ============== REDIS ==============
-if not DEBUG:
+if DEBUG:
+    print('--- Используется заглушка вместо реального кэша ---')
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+    }
+else:
+    print('--- Кэш хранится в БД REDIS ---')
+
     REDIS_URL = getenv('REDIS_URL')
     REDIS_PORT = getenv('REDIS_PORT', 6379)
     REDIS_CACHE_NUMBER_DATABASE = getenv('REDIS_CACHE_NUMBER_DATABASE', 1)
-    REDIS_HOST = getenv("REDIS_HOST")
 
-    REDIS_CACHE_URL = f'{REDIS_URL}{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_NUMBER_DATABASE}'
+    REDIS_CACHE_URL = f'{REDIS_URL}redis:{REDIS_PORT}/{REDIS_CACHE_NUMBER_DATABASE}'
 
     CACHES = {
         'default': {

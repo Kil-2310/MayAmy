@@ -4,8 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -56,14 +54,7 @@ class CatalogView(ReadOnlyModelViewSet):
         .select_related('category')
     )
 
-    filter_backends = [
-        DjangoFilterBackend,
-        SearchFilter,
-    ]
-
     filterset_class = ProductFilter
-    search_fields = ['title', 'description']
-    ordering_fields = ['price', 'date', 'reviews', 'rating']
 
     @method_decorator(cache_page(60 * 2))
     def list(self, request, *args, **kwargs):
