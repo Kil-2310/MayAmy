@@ -102,8 +102,8 @@ class CreateReviewSerializer(serializers.Serializer):
     """Сериализатор для создания отзыва"""
 
     text = serializers.CharField()
-    author = serializers.CharField()
-    email = serializers.EmailField()
+    author = serializers.CharField(source='user.username')
+    email = serializers.EmailField(source='user.email')
     rate = serializers.FloatField()
 
 

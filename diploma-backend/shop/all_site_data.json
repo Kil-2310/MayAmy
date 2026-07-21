@@ -42,23 +42,23 @@
   },
   {
     "model": "tags.tag",
-    "pk": 1,
+    "pk": 2,
     "fields": {
       "name": "Устаревшие смартфоны"
     }
   },
   {
     "model": "tags.tag",
-    "pk": 5,
+    "pk": 3,
     "fields": {
       "name": "Современные телевизоры"
     }
   },
   {
     "model": "tags.tag",
-    "pk": 5,
+    "pk": 4,
     "fields": {
-      "name": "Устаревшие Телевизоры"
+      "name": "Устаревшие телевизоры"
     }
   },
   {
@@ -105,6 +105,22 @@
     }
   },
   {
+    "model": "product.productpreview",
+    "pk": 3,
+    "fields": {
+      "preview": "products_preview/tv_1.avif",
+      "alt": "Товар 3"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 4,
+    "fields": {
+      "preview": "products_preview/tv_2.avif",
+      "alt": "Товар 4"
+    }
+  },
+  {
     "model": "product.product",
     "pk": 1,
     "fields": {
@@ -118,8 +134,8 @@
       "rating": 3.80,
       "isLimited": false,
       "category": 1,
-      "images": [1, 2],
-      "tags": [5]
+      "images": [3, 4],
+      "tags": [4]
     }
   },
   {
@@ -136,8 +152,8 @@
       "rating": 4.90,
       "isLimited": false,
       "category": 1,
-      "images": [1, 2],
-      "tags": [5]
+      "images": [3, 4],
+      "tags": [3]
     }
   },
   {
@@ -155,7 +171,7 @@
       "isLimited": false,
       "category": 1,
       "images": [1, 2],
-      "tags": [1]
+      "tags": [2]
     }
   },
   {
@@ -171,6 +187,24 @@
       "reviews": 356,
       "rating": 4.80,
       "isLimited": true,
+      "category": 1,
+      "images": [1, 2],
+      "tags": [1]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 5,
+    "fields": {
+      "title": "Старый телефон Nokia 3350",
+      "description": "Легендарный кнопочный телефон.",
+      "price": 1500.00,
+      "count": 7,
+      "freeDelivery": false,
+      "date": "2007-06-10T08:20:00Z",
+      "reviews": 234,
+      "rating": 4.50,
+      "isLimited": false,
       "category": 1,
       "images": [1, 2],
       "tags": [1]
@@ -431,8 +465,8 @@
     "pk": 1,
     "fields": {
       "salePrice": 999.00,
-      "dateFrom": "2026-01-01",
-      "dateTo": "2026-12-31",
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
       "product": 3
     }
   },
@@ -441,8 +475,8 @@
     "pk": 2,
     "fields": {
       "salePrice": 89990.00,
-      "dateFrom": "2026-01-01",
-      "dateTo": "2026-12-31",
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
       "product": 4
     }
   },
@@ -451,6 +485,13 @@
     "pk": 1,
     "fields": {
       "product": 2
+    }
+  },
+  {
+    "model": "product.banner",
+    "pk": 2,
+    "fields": {
+      "product": 3
     }
   }
 ]

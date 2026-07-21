@@ -24,6 +24,7 @@ class GetBasketSerializer(serializers.ModelSerializer):
     tags = TagSerializer(source='product.tags', many=True)
     reviews = serializers.IntegerField(source='product.reviews')
     rating = serializers.FloatField(source='product.rating')
+    count = serializers.IntegerField(source='quantity')
 
     class Meta:
         model = Basket

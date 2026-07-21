@@ -1,4 +1,3 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework import status
@@ -9,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 from .models import Basket
-from product.serializers import ProductSerializer
 from product.models import Product
 from .serializers import PostBasketSerializer, GetBasketSerializer
 
@@ -22,7 +20,7 @@ class BasketView(APIView):
         tags=['basket'],
         description="Получение корзины",
         responses={
-            200: ProductSerializer(many=True),
+            200: GetBasketSerializer(many=True),
         }
     )
     def get(self, request: Request) -> Response:
@@ -43,7 +41,7 @@ class BasketView(APIView):
         tags=['basket'],
         description="Добавление товара в корзину",
         responses={
-            200: ProductSerializer(),
+            200: GetBasketSerializer(many=True),
             400: {"description": "Bad Request"},
             404: {"description": "Product not found"},
         },
@@ -70,26 +68,26 @@ class BasketView(APIView):
                 "message": "The quantity of the product is insufficient"
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        product.count -= count
+        user_basket = (
+            Basket.objects.filter(user=self.request.user)
+            .select_related('product')
+            .prefetch_related('product__images', 'product__tags')
+        )
 
-        try:
-            basket_item = Basket.objects.get(
-                user=self.request.user,
-                product=product
-            )
-            basket_item.count += count
+        basket_item = user_basket.filter(product=product).first()
+
+        if basket_item:
+            basket_item.quantity += count
             basket_item.save()
-        except ObjectDoesNotExist:
+        else:
             Basket.objects.create(
                 user=self.request.user,
                 product=product,
-                count=count
+                quantity=count
             )
-        finally:
-            product.save()
 
         return Response(
-            ProductSerializer(product).data,
+            GetBasketSerializer(user_basket, many=True).data,
             status=status.HTTP_200_OK
         )
 
@@ -98,7 +96,7 @@ class BasketView(APIView):
         tags=['basket'],
         description="Удаление товара из корзины",
         responses={
-            200: ProductSerializer(),
+            200: GetBasketSerializer(many=True),
             400: {"description": "Bad Request"},
             404: {"description": "Product not found"},
         },
@@ -119,27 +117,28 @@ class BasketView(APIView):
             Product.objects.prefetch_related('tags', 'images').select_related('category'),
             id=product_id
         )
-        basket = get_object_or_404(
-            Basket,
-            product=product,
-            user=self.request.user
+
+        user_basket = (
+            Basket.objects.filter(user=self.request.user)
+            .select_related('product')
+            .prefetch_related('product__images', 'product__tags')
         )
 
-        if count > basket.count:
+        basket_item = user_basket.filter(product=product).first()
+
+        if count > basket_item.quantity:
             return Response({
                 "message": "Cannot remove more items than in basket"
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        product.count += count
-        basket.count -= count
+        basket_item.quantity -= count
 
-        if basket.count == 0:
-            basket.delete()
+        if basket_item.quantity == 0:
+            basket_item.delete()
         else:
-            basket.save()
-        product.save()
+            basket_item.save()
 
         return Response(
-            ProductSerializer(product).data,
+            GetBasketSerializer(user_basket,  many=True).data,
             status=status.HTTP_200_OK
         )

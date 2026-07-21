@@ -27,18 +27,22 @@ urlpatterns = [
 
     path("", include("frontend.urls")),
 
+    path("api/", include("order.urls")),
     path("api/", include("user_profile.urls")),
     path("api/", include("authentication.urls")),
     path("api/", include("catalog.urls")),
     path("api/", include("basket.urls")),
     path("api/", include("tags.urls")),
     path("api/", include("product.urls")),
+    path("api/", include("payment.urls")),
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
 
+# Для статики используется s3
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

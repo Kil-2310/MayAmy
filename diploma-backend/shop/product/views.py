@@ -70,9 +70,16 @@ class CreateReviewView(APIView):
 
         ProductReviews.objects.create(user=user, text=text, rate=rate, product=product)
         product.reviews += 1
-        product.rating = (product.rating + rate) / product.count
+
+        if product.count == 0:
+            product.rating = rate
+        else:
+            product.rating = (product.rating + rate) / product.count
+
         product.save()
 
+        reviews = ProductReviews.objects.filter(product=product)
+
         return Response(
-            ProductSerializer([product], many=True).data
+            CreateReviewSerializer(reviews, many=True).data
         )

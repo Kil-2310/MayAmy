@@ -1,20 +1,86 @@
-**Проект "Интернет магазин товаров""**
+**Интернет-магазин товаров**
 
-Стек: Python, Django, rest_framework, Redis, S3.
+О проекте
 
-Инструкция для запуска проекта:
+Интернет-магазин с полным циклом обработки заказов и управлением каталогом товаров. Проект построен на микросервисной архитектуре с использованием современных технологий для обеспечения высокой производительности и масштабируемости.
 
-* Сборка Frontend:
-- pip install -r requirements.txt
-- cd diploma-frontend
-- python setup.py sdist
-- pip install dist/diploma_frontend-0.6.tar.gz
+*Ключевые возможности*
 
-* Сборка Backend
-- cd ../diploma-backend/shop/
-- python manage.py migrate
-- python manage.py loaddata all_site_data.json 
-- python manage.py runserver
+    📦 Управление каталогом - товары, категории, теги, фильтры
+    🛒 Корзина покупок - хранение на стороне сервера
+    👤 Аутентификация и профили - регистрация, вход, управление профилем
+    💳 Платежная система - интеграция с платежными шлюзами
+    📊 API документация - автоматическая генерация Swagger/OpenAPI схем
+    🚀 Высокая производительность - кеширование Redis, оптимизация запросов
+    ⚙️ Управление магазином - полностью настроенная панель администратора
 
-После установки всех будет доступен url: http://127.0.0.1:8000/
-Swagger находится по адресу: http://127.0.0.1:8000/api/schema/swagger/
+*Технологический стек*
+
+# Backend
+
+    * Python 3.12.3 - язык программирования
+    * Django 5.2 - веб-фреймворк
+    * Django REST Framework - построение REST API
+    * Drf Spectacular - генерация OpenAPI схемы
+    * Django Filter - фильтрация данных
+
+# Базы данных и кеширование
+
+    * PostgreSQL - основная реляционная база данных
+    * Redis - кеширование запросов
+    * SQLite - для разработки и тестирования (опционально)
+
+# Хранилище
+
+    * S3 (Object Storage) - хранение медиа-файлов
+
+# Мониторинг и логирование
+
+    * Loki - централизованное хранение логов
+    * Grafana - визуализация логов и метрик приложения
+
+# Инфраструктура
+
+    * Docker - контейнеризация приложения
+    * Docker Compose - оркестрация контейнеров
+    * Gunicorn - WSGI сервер для продакшена
+    * Nginx - прокси-сервер и раздача статики
+
+Для запуска проекта после клонирования требуется обеспечить доступ к объектному хранилищу: приобрести тариф по ссылке https://timeweb.cloud/my/projects/1930223 либо использовать существующее S3-хранилище. Затем необходимо настроить окружение, заполнив файл .env согласно шаблону .env.template (образец заполнения прилагается ниже).
+
+DJANGO_SECRET_KEY=
+DJANGO_DEBUG=1
+DJANGO_LOGLEVEL=INFO
+DJANGO_ALLOWED_HOSTS=
+
+AWS_ACCESS_KEY_ID='Ваш S3 Access Key'
+AWS_SECRET_ACCESS_KEY='Ваш S3 Secret Access Key'
+AWS_STORAGE_BUCKET_NAME='Название бакета'
+
+REDIS_PORT=6379
+REDIS_CACHE_NUMBER_DATABASE=1
+REDIS_URL=redis://redis
+
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=123
+POSTGRES_DB=test_database
+POSTGRES_PORT=5432
+
+**Перед запуском проекта необходимо установить плагин для Docker**
+
+``` bash
+    docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+```
+
+**Инструкция по запуску и остановке проекта**
+
+``` bash
+   docker compose up -d
+   docker compose down
+```
+
+URL приложения:
+1. Проект доступен по url: http://127.0.0.1
+2. Swagger находится по адресу: http://127.0.0.1/api/schema/swagger/
+3. Grafana находится по адресу: http://127.0.0.1:3000
+4. Админка находится по адресу: http://127.0.0.1/admin/
