@@ -1,0 +1,497 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "bob",
+      "password": "pbkdf2_sha256$870000$rawgwKFhRxH5knoL7moTaT$DXew3oq4edfMESnlbVXfsvPJpY3iWkiGsxtQ8a6PERc=",
+      "email": "bob@example.com",
+      "first_name": "Bob",
+      "last_name": "Smith",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "date_joined": "2026-07-08T10:00:00Z",
+      "last_login": "2026-07-08T10:00:00Z"
+    }
+  },
+  {
+    "model": "user_profile.profile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "fullName": "Bob Smith",
+      "phone": "+7 123 456-78-90"
+    }
+  },
+  {
+    "model": "user_profile.profileavatar",
+    "pk": 1,
+    "fields": {
+      "alt": "Bob's avatar",
+      "preview": "user_avatar/bob.jpg",
+      "profile": 1
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Современные смартфоны"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Устаревшие смартфоны"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Современные телевизоры"
+    }
+  },
+  {
+    "model": "tags.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Устаревшие телевизоры"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "title": "Электроника",
+      "image": "categories/electronics.avif",
+      "parent": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "title": "Смартфоны",
+      "image": "categories/phones.jpg",
+      "parent": 1
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "title": "Телевизоры",
+      "image": "categories/tv.webp",
+      "parent": 1
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 1,
+    "fields": {
+      "preview": "products_preview/phone_1.jpg",
+      "alt": "Товар 1"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 2,
+    "fields": {
+      "preview": "products_preview/phone_2.jpg",
+      "alt": "Товар 2"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 3,
+    "fields": {
+      "preview": "products_preview/tv_1.avif",
+      "alt": "Товар 3"
+    }
+  },
+  {
+    "model": "product.productpreview",
+    "pk": 4,
+    "fields": {
+      "preview": "products_preview/tv_2.avif",
+      "alt": "Товар 4"
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 1,
+    "fields": {
+      "title": "Старый телевизор Samsung LE32R71B",
+      "description": "Классический ЖК-телевизор с диагональю 32 дюйма. Отличное качество для своего времени, поддерживает разрешение 1366x768. Идеально подходит для просмотра эфирного телевидения и DVD.",
+      "price": 5000.00,
+      "count": 3,
+      "freeDelivery": false,
+      "date": "2007-01-15T10:00:00Z",
+      "reviews": 45,
+      "rating": 3.80,
+      "isLimited": false,
+      "category": 1,
+      "images": [3, 4],
+      "tags": [4]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 2,
+    "fields": {
+      "title": "Новый телевизор LG OLED65C1",
+      "description": "Современный OLED-телевизор с диагональю 65 дюймов и разрешением 4K. Поддержка HDR10, Dolby Vision, интеллектуальные функции на базе AI, тонкий дизайн и потрясающая цветопередача.",
+      "price": 89999.00,
+      "count": 10,
+      "freeDelivery": true,
+      "date": "2022-03-20T14:30:00Z",
+      "reviews": 127,
+      "rating": 4.90,
+      "isLimited": false,
+      "category": 1,
+      "images": [3, 4],
+      "tags": [3]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 3,
+    "fields": {
+      "title": "Старый телефон Nokia 3310",
+      "description": "Легендарный кнопочный телефон с неубиваемым корпусом. Время работы без подзарядки до 2 недель. Поддержка SMS, змейка и классический дизайн, знакомый каждому.",
+      "price": 1500.00,
+      "count": 7,
+      "freeDelivery": false,
+      "date": "2007-06-10T08:20:00Z",
+      "reviews": 234,
+      "rating": 4.50,
+      "isLimited": false,
+      "category": 1,
+      "images": [1, 2],
+      "tags": [2]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 4,
+    "fields": {
+      "title": "Новый телефон Apple iPhone 14 Pro",
+      "description": "Флагманский смартфон с дисплеем Super Retina XDR, процессором A16 Bionic, улучшенной системой камер и возможностью съемки в формате ProRes. Поддержка 5G и всегда активный дисплей.",
+      "price": 109990.00,
+      "count": 25,
+      "freeDelivery": true,
+      "date": "2022-09-16T12:00:00Z",
+      "reviews": 356,
+      "rating": 4.80,
+      "isLimited": true,
+      "category": 1,
+      "images": [1, 2],
+      "tags": [1]
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 5,
+    "fields": {
+      "title": "Старый телефон Nokia 3350",
+      "description": "Легендарный кнопочный телефон.",
+      "price": 1500.00,
+      "count": 7,
+      "freeDelivery": false,
+      "date": "2007-06-10T08:20:00Z",
+      "reviews": 234,
+      "rating": 4.50,
+      "isLimited": false,
+      "category": 1,
+      "images": [1, 2],
+      "tags": [1]
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 1,
+    "fields": {
+      "text": "Отличный телефон! Работает без проблем уже 3 года. Батарея держит заряд до 2 недель, как и заявлено. Очень надежный аппарат.",
+      "rate": 5,
+      "date": "2024-01-15T10:30:00Z",
+      "user": 1,
+      "product": 3
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 2,
+    "fields": {
+      "text": "Классика! Купил для коллекции, но использую как основной телефон для звонков. Отличная слышимость и громкий динамик.",
+      "rate": 4,
+      "date": "2024-02-20T14:15:00Z",
+      "user": 1,
+      "product": 3
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 3,
+    "fields": {
+      "text": "iPhone 14 Pro - это просто космос! Камера делает невероятные фото, особенно в ночном режиме. Дисплей супер яркий, батареи хватает на весь день активного использования.",
+      "rate": 5,
+      "date": "2024-03-10T09:00:00Z",
+      "user": 1,
+      "product": 4
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 4,
+    "fields": {
+      "text": "Дорого, но качество оправдывает цену. Процессор летает, игры на максимальных настройках без лагов. Рекомендую!",
+      "rate": 5,
+      "date": "2024-04-05T16:45:00Z",
+      "user": 1,
+      "product": 4
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 5,
+    "fields": {
+      "text": "Телевизор LG OLED65C1 - лучшее решение для домашнего кинотеатра. Черный цвет бесконечный, цвета сочные и реалистичные. Smart TV работает быстро, без зависаний.",
+      "rate": 5,
+      "date": "2024-05-12T11:20:00Z",
+      "user": 1,
+      "product": 2
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 6,
+    "fields": {
+      "text": "Samsung LE32R71B - хороший телевизор для дачи или кухни. Картинка четкая, звук нормальный. Для своих лет работает отлично.",
+      "rate": 4,
+      "date": "2024-06-18T13:10:00Z",
+      "user": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 7,
+    "fields": {
+      "text": "Брал для просмотра эфирного ТВ. Подключается антенна без проблем, каналы ловит хорошо. Простой и надежный аппарат.",
+      "rate": 4,
+      "date": "2024-07-22T08:50:00Z",
+      "user": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "product.productreviews",
+    "pk": 8,
+    "fields": {
+      "text": "LG C1 - это настоящий флагман! Интерфейс быстрый, пульт с курсором очень удобный. Стриминговые сервисы работают идеально. Всем советую!",
+      "rate": 5,
+      "date": "2024-08-30T19:35:00Z",
+      "user": 1,
+      "product": 2
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "name": "Диагональ",
+      "value": "32 дюйма"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "name": "Разрешение",
+      "value": "1366x768"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "name": "Тип матрицы",
+      "value": "LCD"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 4,
+    "fields": {
+      "product": 1,
+      "name": "Год выпуска",
+      "value": "2007"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 5,
+    "fields": {
+      "product": 2,
+      "name": "Диагональ",
+      "value": "65 дюймов"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 6,
+    "fields": {
+      "product": 2,
+      "name": "Разрешение",
+      "value": "3840x2160 (4K)"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 7,
+    "fields": {
+      "product": 2,
+      "name": "Тип матрицы",
+      "value": "OLED"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 8,
+    "fields": {
+      "product": 2,
+      "name": "Поддержка HDR",
+      "value": "HDR10, Dolby Vision"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 9,
+    "fields": {
+      "product": 2,
+      "name": "Smart TV",
+      "value": "webOS 6.0"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 10,
+    "fields": {
+      "product": 3,
+      "name": "Тип телефона",
+      "value": "Кнопочный"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 11,
+    "fields": {
+      "product": 3,
+      "name": "Время работы",
+      "value": "До 2 недель"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 12,
+    "fields": {
+      "product": 3,
+      "name": "Вес",
+      "value": "133 грамма"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 13,
+    "fields": {
+      "product": 3,
+      "name": "Особенности",
+      "value": "Неубиваемый корпус"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 14,
+    "fields": {
+      "product": 4,
+      "name": "Экран",
+      "value": "6.1 дюймов, Super Retina XDR"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 15,
+    "fields": {
+      "product": 4,
+      "name": "Процессор",
+      "value": "A16 Bionic"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 16,
+    "fields": {
+      "product": 4,
+      "name": "Камера",
+      "value": "Основная: 48 МП, Ultra Wide: 12 МП, Telephoto: 12 МП"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 17,
+    "fields": {
+      "product": 4,
+      "name": "Связь",
+      "value": "5G, Wi-Fi 6, Bluetooth 5.3"
+    }
+  },
+  {
+    "model": "product.specifications",
+    "pk": 18,
+    "fields": {
+      "product": 4,
+      "name": "Защита",
+      "value": "Ceramic Shield, водозащита IP68"
+    }
+  },
+  {
+    "model": "product.sales",
+    "pk": 1,
+    "fields": {
+      "salePrice": 999.00,
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
+      "product": 3
+    }
+  },
+  {
+    "model": "product.sales",
+    "pk": 2,
+    "fields": {
+      "salePrice": 89990.00,
+      "dateFrom": "01-01",
+      "dateTo": "12-31",
+      "product": 4
+    }
+  },
+  {
+    "model": "product.banner",
+    "pk": 1,
+    "fields": {
+      "product": 2
+    }
+  },
+  {
+    "model": "product.banner",
+    "pk": 2,
+    "fields": {
+      "product": 3
+    }
+  }
+]
