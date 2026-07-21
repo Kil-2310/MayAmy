@@ -20,6 +20,10 @@ services:
       "
     ports:
       - "8000"
+    logging:
+      driver: loki
+      options:
+        loki-url: http://localhost:3100/loki/api/v1/push
     volumes:
       - ./staticfiles/:/app/diploma-backend/staticfiles/
     env_file:
@@ -44,3 +48,16 @@ services:
       - ${REDIS_PORT}
     env_file:
       - ./.env
+
+  grafana:
+    image: grafana/grafana:9.2.15
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3000:3000"
+
+  loki:
+    image: grafana/loki:2.8.0
+    ports:
+      - "3100:3100"
