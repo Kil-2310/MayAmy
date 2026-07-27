@@ -1,7 +1,25 @@
 [
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$oBRcbZRPQkKhkhfEBC8r7H$13Zbt1J+s2ttGDsXN63t63JTdH6+G07XF13FnmbYghQ=",
+    "last_login": "2026-07-27T09:25:22.463Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-07-27T09:25:14.191Z",
+    "groups": [],
+    "user_permissions": []
+    }
+  },
   {
     "model": "auth.user",
-    "pk": 1,
+    "pk": 2,
     "fields": {
       "username": "bob",
       "password": "pbkdf2_sha256$870000$rawgwKFhRxH5knoL7moTaT$DXew3oq4edfMESnlbVXfsvPJpY3iWkiGsxtQ8a6PERc=",

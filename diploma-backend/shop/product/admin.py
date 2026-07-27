@@ -5,7 +5,8 @@ from .models import (
     ProductReviews,
     Banner,
     Sales,
-    Specifications
+    Specifications,
+    ProductPreview
 )
 
 class ProductReviewsInline(admin.StackedInline):
@@ -30,6 +31,13 @@ class ProductPreviewInline(admin.StackedInline):
     """Инлайн модель превью для товаров"""
 
     model = Product.images.through
+
+
+@admin.register(ProductPreview)
+class ProductPreviewAdmin(admin.ModelAdmin):
+    """Модель админки для картинок товара"""
+    list_display = ('preview', 'alt')
+
 
 
 @admin.register(Product)

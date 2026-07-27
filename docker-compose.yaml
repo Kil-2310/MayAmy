@@ -16,10 +16,11 @@ services:
       sh -c "
         python /app/diploma-backend/manage.py collectstatic --noinput &&
         python /app/diploma-backend/manage.py migrate &&
+        python /app/diploma-backend/manage.py loaddata /app/diploma-backend/all_site_data.json &&
         gunicorn --chdir /app/diploma-backend --bind 0.0.0.0:8000 shop.wsgi:application
       "
     ports:
-      - "8000"
+      - "8000:8000"
     logging:
       driver: loki
       options:
