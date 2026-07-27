@@ -53,7 +53,7 @@
 
 #### Перед запуском проекта необходимо:
 
-Установить Docker, по ссылке: https://docs.docker.com/engine/install/. Поставить плагин для логирования, коммандой: docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions Заполнить .env файл в корне проекта, по примеру, указанному ниже:
+Установить Docker, по ссылке: https://docs.docker.com/engine/install/. Поставить плагин для логирования, командой:: docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions Заполнить .env файл в корне проекта, по примеру, указанному ниже:
 
     DJANGO_SECRET_KEY='django-insecure-%vcbd1!81dbl&*16lv-#!0ot_pzpv3%zwzu#n!$z)shbgq-)bk'
     DJANGO_DEBUG=0
@@ -77,7 +77,7 @@
 ### Запуск и остановка проекта
 
 ``` bash
-docker compose up -d --build
+docker compose up -d --build 
 docker compose down
 ```
 
@@ -91,7 +91,7 @@ docker compose down
 ## Аутентификация пользователей
 В системе предусмотрено 3 роли:
 
-    1. Админимтратор. Username - admin, password - 123
+    1. Администратор. Username - admin, password - 123
     2. Аутентифицированный пользователь. Username- bob, password - 123
     3. Анонимный пользователь
 
