@@ -29,6 +29,9 @@ services:
       - ./staticfiles/:/app/diploma-backend/staticfiles/
     env_file:
       - ./.env
+    depends_on:
+      - redis
+      - postgres
 
   postgres:
     image: postgres:15

@@ -49,26 +49,22 @@
 
 ### Настройка проекта и установка ПО
 
-Для работы в режимах разработки и продакшена требуется конфигурация S3-хранилища согласно примеру (example.png). Без этой настройки функционал загрузки и отображения изображений будет недоступен (сервер будет возвращать ошибку). Однако проект сохраняет работоспособность в остальных частях и может функционировать без S3, если загрузка файлов не критична.
+Для работы в режимах разработки и продакшена необходимо настроить S3-хранилище, в котором будет размещаться вся медиа-информация (пример конфигурации S3 — на изображении example.png). Без этой настройки функционал загрузки, отправки и отображения изображений будет недоступен (сервер будет возвращать ошибку). Однако проект сохраняет работоспособность в остальных частях и может функционировать без S3, если загрузка и получение медиа не критична.
 
 #### Перед запуском проекта необходимо:
 
-Установить Docker, по ссылке: https://docs.docker.com/engine/install/. Поставить плагин для логирования, командой:: docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions Заполнить .env файл в корне проекта, по примеру, указанному ниже:
+Установить Docker, по ссылке: https://docs.docker.com/engine/install/. Поставить плагин для логирования командой: docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions. Заполнить .env файл в корне проекта, по примеру, указанному ниже:
 
-    DJANGO_SECRET_KEY='django-insecure-%vcbd1!81dbl&*16lv-#!0ot_pzpv3%zwzu#n!$z)shbgq-)bk'
+    # Django settings
     DJANGO_DEBUG=0
     DJANGO_LOGLEVEL=INFO
-    DJANGO_ALLOWED_HOSTS=
-    DJANGO_DOMAIN=
     
-    AWS_ACCESS_KEY_ID='None'
-    AWS_SECRET_ACCESS_KEY='None'
-    AWS_STORAGE_BUCKET_NAME='None'
-    
+    # Redis settings
     REDIS_PORT=6379
     REDIS_CACHE_NUMBER_DATABASE=1
-    REDIS_URL=redis://redis
+    REDIS_URL=redis://
     
+    # Database settings
     POSTGRES_USER=admin
     POSTGRES_PASSWORD=123
     POSTGRES_DB=test_database
@@ -91,9 +87,9 @@ docker compose down
 ## Аутентификация пользователей
 В системе предусмотрено 3 роли:
 
-    1. Администратор. Username - admin, password - 123
-    2. Аутентифицированный пользователь. Username- bob, password - 123
-    3. Анонимный пользователь
+    1. Администратор. Логин - admin, пароль - 123
+    2. Аутентифицированный пользователь. Логин- bob, пароль - 123
+    3. Анонимный пользователь.
 
 ## В курсе дела
 
