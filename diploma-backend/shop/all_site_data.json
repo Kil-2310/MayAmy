@@ -37,7 +37,7 @@
     "model": "user_profile.profile",
     "pk": 1,
     "fields": {
-      "user": 1,
+      "user": 2,
       "fullName": "Bob Smith",
       "phone": "+7 123 456-78-90"
     }
